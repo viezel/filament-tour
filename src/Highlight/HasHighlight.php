@@ -10,12 +10,14 @@ trait HasHighlight
 
     public function constructHighlights($class): array
     {
-        return collect($this->highlights())->mapWithKeys(function (Highlight $highlight, $item) use ($class) {
+        $prefixId = config('filament-tour.highlight_prefix_id');
+
+        return collect($this->highlights())->mapWithKeys(function (Highlight $highlight, $item) use ($class, $prefixId) {
 
             $data[$item] = [
                 'route' => $this->getRoute($class),
 
-                'id' => "highlight_{$highlight->getId()}",
+                'id' => "{$prefixId}{$highlight->getId()}",
 
                 'position' => $highlight->getPosition(),
 

@@ -10,6 +10,8 @@ trait HasTour
 
     public function constructTours($class): array
     {
+        $prefixId = config('filament-tour.tour_prefix_id');
+
         $tours = [];
 
         foreach ($this->tours() as $tour) {
@@ -20,7 +22,7 @@ trait HasTour
                     $this->setRoute($tour->getRoute());
                 }
 
-                $steps = json_encode(collect($tour->getSteps())->mapWithKeys(function (Step $step, $item) use ($tour) {
+                $steps = json_encode(collect($tour->getSteps())->mapWithKeys(function (Step $step, $item) use ($tour, $prefixId) {
 
                     $data[$item] = [
                         'uncloseable' => $step->isUncloseable(),
@@ -67,7 +69,7 @@ trait HasTour
 
                         'route' => $route,
 
-                        'id' => "tour_{$tour->getId()}",
+                        'id' => "{$prefixId}{$tour->getId()}",
 
                         'alwaysShow' => $tour->isAlwaysShow(),
 
