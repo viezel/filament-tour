@@ -2,6 +2,20 @@
 
 All notable changes to `filament-tour` will be documented in this file.
 
+## v3.1.0.4 - 2024-04-17
+
+### What's Changed
+
+* Fixed translation by @theHocineSaad in https://github.com/JibayMcs/filament-tour/pull/10
+* Fix the  filament-tour::open-tour  and  filament-tour::open-highlight problems  by @wallacemaxters in https://github.com/JibayMcs/filament-tour/pull/14
+
+### New Contributors
+
+* @theHocineSaad made their first contribution in https://github.com/JibayMcs/filament-tour/pull/10
+* @wallacemaxters made their first contribution in https://github.com/JibayMcs/filament-tour/pull/14
+
+**Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.3...v3.1.0.4
+
 ## v3.1.0.3 - 2023-09-20
 
 ### What's Changed
@@ -40,17 +54,17 @@ You can now load your tours directly using a JSON file from a URL or your Storag
 
 #### Tour
 
-- Added to make all child steps uncloseable   
-     
-  - `function uncloseable(bool|Closure $uncloseable = true)`   
+- Added to make all child steps uncloseable
   
-- Added to disable all steps events   
-     
-  - `function disableEvents(bool|Closure $disableEvents = true)`   
+  - `function uncloseable(bool|Closure $uncloseable = true)`
   
-- Added to ignore routes check to launch Tour   
-     
-  - `function ignoreRoutes(bool|Closure $ignoreRoutes = true)`   
+- Added to disable all steps events
+  
+  - `function disableEvents(bool|Closure $disableEvents = true)`
+  
+- Added to ignore routes check to launch Tour
+  
+  - `function ignoreRoutes(bool|Closure $ignoreRoutes = true)`
   
 
 ## 1.0.0 - 202X-XX-XX
