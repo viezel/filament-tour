@@ -29,6 +29,17 @@ document.addEventListener('livewire:initialized', async function () {
         });
     }
 
+    function parseId(params) {
+
+        if (Array.isArray(params)) {
+            return params[0];
+        } else if (typeof params === 'object') {
+            return params.id;
+        }
+
+        return params;
+    }
+
     Livewire.dispatch('filament-tour::load-elements', {request: window.location})
 
     Livewire.on('filament-tour::loaded-elements', function (data) {
@@ -89,7 +100,10 @@ document.addEventListener('livewire:initialized', async function () {
     }
 
 
-    Livewire.on('filament-tour::open-highlight', function (id) {
+    Livewire.on('filament-tour::open-highlight', function (params) {
+
+        const id = parseId(params);
+
         let highlight = highlights.find(element => element.id === id);
 
         if (highlight) {
@@ -115,7 +129,10 @@ document.addEventListener('livewire:initialized', async function () {
         }
     });
 
-    Livewire.on('filament-tour::open-tour', function (id) {
+    Livewire.on('filament-tour::open-tour', function (params) {
+
+        const id = parseId(params);
+
         let tour = tours.find(element => element.id === id);
 
         if (tour) {
@@ -178,7 +195,7 @@ document.addEventListener('livewire:initialized', async function () {
 
 
                     if (step.events) {
-                        
+
                         if (step.events.notifyOnNext) {
                             new FilamentNotification()
                                 .title(step.events.notifyOnNext.title)
