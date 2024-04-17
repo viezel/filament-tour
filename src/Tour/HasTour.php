@@ -22,7 +22,7 @@ trait HasTour
                     $this->setRoute($tour->getRoute());
                 }
 
-                $steps = json_encode(collect($tour->getSteps())->mapWithKeys(function (Step $step, $item) use ($tour, $prefixId) {
+                $steps = json_encode(collect($tour->getSteps())->mapWithKeys(function (Step $step, $item) use ($tour) {
 
                     $data[$item] = [
                         'uncloseable' => $step->isUncloseable(),
