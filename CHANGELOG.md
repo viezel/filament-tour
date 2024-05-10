@@ -2,6 +2,18 @@
 
 All notable changes to `filament-tour` will be documented in this file.
 
+## v3.1.0.5 - 2024-05-10
+
+### What's Changed
+
+* chore(deps): upd illuminate/contracts to laravel 11 by @pepperfm in https://github.com/JibayMcs/filament-tour/pull/17
+
+### New Contributors
+
+* @pepperfm made their first contribution in https://github.com/JibayMcs/filament-tour/pull/17
+
+**Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.4...v3.1.0.5
+
 ## v3.1.0.4 - 2024-04-17
 
 ### What's Changed
