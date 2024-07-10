@@ -1,5 +1,7 @@
-
 # Bring the power of DriverJs to your Filament panels and start a tour !
+
+## Due to a heavy workload, I'm unable to continue fixing and improving Filament-Tour.
+## But if you feel like patching it, modifying it or rewriting it, don't hesitate to contribute to the project! 
 
 With the power of [DriverJS](https://driverjs.com) bring to your users an elegant way to discover your panels !
 
