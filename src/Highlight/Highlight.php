@@ -4,6 +4,7 @@ namespace JibayMcs\FilamentTour\Highlight;
 
 use Closure;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class Highlight
@@ -38,11 +39,11 @@ class Highlight
      * <br>
      * Define a **$parent** to be able to view this highlight button next to it
      */
-    public static function make(string $id, string $parent): static
+    public static function make(string $parent): static
     {
         return app(static::class,
             [
-                'id' => $id,
+                'id' => Str::slug($parent),
                 'colors' => [
                     'dark' => '#fff',
                     'light' => 'rgb(0,0,0)',

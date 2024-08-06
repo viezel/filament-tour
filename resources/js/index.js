@@ -104,6 +104,8 @@ document.addEventListener('livewire:initialized', async function () {
 
         const id = parseId(params);
 
+        console.log(highlights)
+
         let highlight = highlights.find(element => element.id === id);
 
         if (highlight) {
@@ -133,7 +135,7 @@ document.addEventListener('livewire:initialized', async function () {
 
         const id = parseId(params);
 
-        let tour = tours.find(element => element.id === id);
+        let tour = tours.find(element => element.id === `tour_${id}`);
 
         if (tour) {
             openTour(tour);
@@ -274,5 +276,4 @@ document.addEventListener('livewire:initialized', async function () {
             driverObj.drive();
         }
     }
-})
-;
+});

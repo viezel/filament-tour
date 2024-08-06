@@ -2,6 +2,7 @@
 
 namespace JibayMcs\FilamentTour\Tour;
 
+use Filament\Facades\Filament;
 use JibayMcs\FilamentTour\Tour\Traits\CanConstructRoute;
 
 trait HasTour
@@ -18,7 +19,7 @@ trait HasTour
 
             if ($tour instanceof Tour) {
 
-                if ($tour->getRoute()) {
+                if ($tour->getRoute() && Filament::auth()->user()) {
                     $this->setRoute($tour->getRoute());
                 }
 
@@ -42,7 +43,7 @@ trait HasTour
                         ],
                     ];
 
-                    if (! $tour->hasDisabledEvents()) {
+                    if (!$tour->hasDisabledEvents()) {
                         $data[$item]['events'] = [
                             'redirectOnNext' => $step->getRedirectOnNext(),
                             'clickOnNext' => $step->getClickOnNext(),
