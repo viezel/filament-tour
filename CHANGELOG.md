@@ -2,6 +2,28 @@
 
 All notable changes to `filament-tour` will be documented in this file.
 
+## v3.1.0.6 - 2024-08-06
+
+### Fixes
+
+- Fixed THE major issue regarding to the route system, basically caused by unauthentified user
+- Fixed opening highlights on click the highlight button
+- Fixed event to open a tour, ex: used in a custom Action:
+    ```php
+    protected function getHeaderActions(): array
+  {
+      return [
+          Action::make('Tour')->dispatch('filament-tour::open-tour', ['tour_dashboard']),
+      ];
+  }
+  
+    ```
+
+```
+
+**Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.5...3.x
+
+```
 ## v3.1.0.5 - 2024-05-10
 
 ### What's Changed
