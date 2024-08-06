@@ -37,7 +37,7 @@ class Step
     {
         $step = $array;
 
-        $app = app(static::class, ['element' => $step->element ?? null]);
+        $app = app(static::class, ['element' => $step['element'] ?? null]);
 
         $app->title($step['title']);
         $app->description($step['description']);
