@@ -2,6 +2,18 @@
 
 All notable changes to `filament-tour` will be documented in this file.
 
+## v3.1.0.7 - 2024-08-06
+
+### What's Changed
+
+* suitable for what json format works | Update Step.php by @MrPowerUp82 in https://github.com/JibayMcs/filament-tour/pull/19
+
+### New Contributors
+
+* @MrPowerUp82 made their first contribution in https://github.com/JibayMcs/filament-tour/pull/19
+
+**Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.6...v3.1.0.7
+
 ## v3.1.0.6 - 2024-08-06
 
 ### Fixes
@@ -12,16 +24,18 @@ All notable changes to `filament-tour` will be documented in this file.
     ```php
     protected function getHeaderActions(): array
   {
-      return [
-          Action::make('Tour')->dispatch('filament-tour::open-tour', ['tour_dashboard']),
-      ];
+    return [
+        Action::make('Tour')->dispatch('filament-tour::open-tour', ['tour_dashboard']),
+    ];
   }
+  
   
     ```
 
 ```
 
 **Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.5...3.x
+
 
 ```
 ## v3.1.0.5 - 2024-05-10
