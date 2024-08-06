@@ -51,11 +51,11 @@ class FilamentTourWidget extends Component
         }
 
         foreach ($classesUsingHasTour as $class) {
-            $this->tours = array_merge($this->tours, (new $class())->constructTours($class));
+            $this->tours = array_merge($this->tours, (new $class)->constructTours($class));
         }
 
         foreach ($classesUsingHasHighlight as $class) {
-            $this->highlights = array_merge($this->highlights, (new $class())->constructHighlights($class));
+            $this->highlights = array_merge($this->highlights, (new $class)->constructHighlights($class));
         }
 
         $this->dispatch('filament-tour::loaded-elements',
