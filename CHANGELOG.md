@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tour` will be documented in this file.
 
+## v3.1.0.9 - 2024-09-11
+
+### What's Changed
+
+* Fixing Typo in my last commit by @OccTherapist in https://github.com/JibayMcs/filament-tour/pull/22
+
+**Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.8...v3.1.0.9
+
 ## v3.1.0.8 - 2024-09-10
 
 ### What's Changed
@@ -37,9 +45,10 @@ All notable changes to `filament-tour` will be documented in this file.
     protected function getHeaderActions(): array
   {
   return [
-      Action::make('Tour')->dispatch('filament-tour::open-tour', ['tour_dashboard']),
+    Action::make('Tour')->dispatch('filament-tour::open-tour', ['tour_dashboard']),
   ];
   }
+  
   
   
   
@@ -48,6 +57,7 @@ All notable changes to `filament-tour` will be documented in this file.
 ```
 
 **Full Changelog**: https://github.com/JibayMcs/filament-tour/compare/v3.1.0.5...3.x
+
 
 
 
