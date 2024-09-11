@@ -3,7 +3,7 @@
 // translations for JibayMcs/FilamentTour
 return [
     'button' => [
-cd        'previous' => 'Zurück',
+        'previous' => 'Zurück',
         'next' => 'Weiter',
         'done' => 'Fertig',
     ],
