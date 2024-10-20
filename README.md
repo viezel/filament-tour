@@ -44,6 +44,8 @@ This is the contents of the published config file:
 ## Usage
 
 ```php
+use JibayMcs\FilamentTour\FilamentTourPlugin;
+
 public function panel(Panel $panel) {
 	return $panel->default()
 		->[...]
@@ -70,7 +72,7 @@ If you don't already have a customized dashboard, please refer to the following 
 <?php  
 namespace App\Filament\Pages;  
   
-use JibayMcs\FilamentTour\Tour\Tour;  
+use JibayMcs\FilamentTour\Tour\HasTour;
   
 class Dashboard extends FilamentDashboard {
 
@@ -87,6 +89,9 @@ ___
 ### Create a simple tour !
 
 ```php
+use JibayMcs\FilamentTour\Tour\Step;
+use JibayMcs\FilamentTour\Tour\Tour;
+
 public function tours(): array {
     return [
        Tour::make('dashboard')
@@ -106,10 +111,37 @@ public function tours(): array {
 }
 ```
 
+### Displaying your tour !
+
+To show a tour immediately after the page loads, you will need to create an event listener in your livewire component.
+In this example, we're on a dashboard which uses's filament's Page class, so we can simply dispatch an `open-tour`
+event right after the tour elements are loaded:
+
+```php
+use Livewire\Attributes\On;
+
+#[On('filament-tour::loaded-elements')]
+public function renderFirstTour(): void
+{
+    $firsTourID = '';
+    foreach ($this->tours() as $tour) {
+        if ($tour instanceof Tour) {
+            $firsTourID = $tour->getId();
+        }
+    }
+    $this->dispatch('filament-tour::open-tour', $firsTourID);
+}
+```
+
+Alternatively, you can bring up the tour for users when they click on a button. See more in the (Event)[#events]
+section.
+
 ### Create a JSON tour !
 
 #### - From a direct URL
 ```php
+use JibayMcs\FilamentTour\Tour\Tour;
+
 public function tours(): array {
     return [
        Tour::make(url: "https://gist.githubusercontent.com/JibayMcs/cc06efddadcfc0a0ff59e116533ee727/raw/8c5c86a3a4b92e4d0586d7a344d0e41f0c175659/TourDashboard.json")
@@ -120,6 +152,9 @@ public function tours(): array {
 #### - From your Storage
 
 ```php
+use JibayMcs\FilamentTour\Tour\Tour;
+use Illuminate\Support\Facades\Storage;
+
 public function tours(): array {
     return [
        Tour::make(json: Storage::disk('local')->get("TourDashboard.json"))
@@ -209,6 +244,8 @@ public function tours(): array {
 ### Tour methods reference
 
 ```php
+use JibayMcs\FilamentTour\Tour\Tour;
+
 // Instanciate a tour, and provide an id, to trigger it later
 Tour::make(string $id)
 
@@ -221,7 +258,7 @@ Tour::make(... $params)
     //Register the steps of your tour
     ->steps(Step ...$steps)
     
-    // Define a color of your hightlight overlay for the dark and light theme of your filament panel
+    // Define a color of your highlight overlay for the dark and light theme of your filament panel
     ->colors(string $light, string $dark)
     
     //Set the tour as always visible, even is already viewed by the user.
@@ -255,6 +292,8 @@ Tour::make(... $params)
 ### Step methods reference
 
 ```php
+use JibayMcs\FilamentTour\Tour\Step;
+
 // If no element provided, the step act like a modal
 Step::make(string $element = null)
 
@@ -317,6 +356,8 @@ class Dashboard extends FilamentDashboard {
 - Create a simple highlight element !
 
 ```php
+use JibayMcs\FilamentTour\Highlight\Highlight;
+
 public function highlights(): array {
 
     return [
@@ -343,7 +384,9 @@ ___
 ### Highlight methods reference
 
 ```php
-// Instanciate a highlight with a CSS select of the element where the icon button is next to
+use JibayMcs\FilamentTour\Highlight\Highlight;
+
+// Instantiate a highlight with a CSS select of the element where the icon button is next to
 Highlight::make(string $parent)
 
     // Define the element to be highlighted
@@ -363,7 +406,7 @@ Highlight::make(string $parent)
     // Default: gray
     ->iconColor(string $color)
 
-    // Define a color of your hightlight overlay for the dark and light theme of your filament panel
+    // Define a color of your highlight overlay for the dark and light theme of your filament panel
     ->colors(string $light, string $dark)
 
     // Set the position of your icon button around the parent
@@ -376,7 +419,7 @@ ___
 
 # Events
 
-### Avalaible events:
+### Available events:
 
 - `filament-tour::open-highlight` **string** id  
   Open a specific highlight by its id.
