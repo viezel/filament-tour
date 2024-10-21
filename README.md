@@ -113,28 +113,52 @@ public function tours(): array {
 
 ### Displaying your tour !
 
-To show a tour immediately after the page loads, you will need to create an event listener in your livewire component.
-In this example, we're on a dashboard which uses's filament's Page class, so we can simply dispatch an `open-tour`
-event right after the tour elements are loaded:
+In order to display your tour, its important to remember to pass in the route for the given path you'd like to have the
+tour show up on - if you'd like to render the tour on the main admin panels dashboard, set the route to:
 
 ```php
+->route('/admin')
+```
+
+Alternatively, you may want to show tours based on more complex logic, for example if a user hasn't created a specific
+type of content.  In order to show a tour you will need to create an event listener in your livewire component.
+Continuing with the Dashboard example, let's show a tour only if the user hasn't created a new Post yet.  We can write
+a query to see if the user has no posts, and if so, fire an `open-tour` event to show the Tour:
+
+```php
+use App\Models\Post;
+use Illuminate\Support\Facades\Config;
 use Livewire\Attributes\On;
 
+/**
+ * Renders the first tour.
+ *
+ * @param boolean $only_visible_once Whether the tour should only be visible once.
+ * @param array   $tours             Tours to render.
+ * @param array   $highlights        Highlights to render.
+ *
+ * @return void
+ */
 #[On('filament-tour::loaded-elements')]
-public function renderFirstTour(): void
+public function renderPostTour(bool $only_visible_once, array $tours, array $highlights): void
 {
-    $firsTourID = '';
-    foreach ($this->tours() as $tour) {
-        if ($tour instanceof Tour) {
-            $firsTourID = $tour->getId();
-        }
+    // If there are posts, don't show this tour
+    if (Post::count() > 0) {
+        return;
     }
-    $this->dispatch('filament-tour::open-tour', $firsTourID);
+
+    // Get the tour prefix value
+    $prefix = Config::get('filament-tour.tour_prefix_id');
+
+    // Remove the prefix
+    $firstTourID = substr($tours[0]['id'], strlen($prefix));
+
+    // Dispatch the event to open the tour
+    $this->dispatch('filament-tour::open-tour', $firstTourID);
 }
 ```
 
-Alternatively, you can bring up the tour for users when they click on a button. See more in the (Event)[#events]
-section.
+You can also bring up tours for users when they click on a button. See more in the (Event)[#events] section.
 
 ### Create a JSON tour !
 
