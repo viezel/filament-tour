@@ -16,7 +16,7 @@ trait CanConstructRoute
             return $this->route;
         }
 
-        if (!Filament::auth()->user()) {
+        if (! Filament::auth()->user()) {
             return '/';
         }
 
