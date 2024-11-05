@@ -16,6 +16,10 @@ trait CanConstructRoute
             return $this->route;
         }
 
+        if (!Filament::auth()->user()) {
+            return '/';
+        }
+
         if (Filament::getCurrentPanel()->getTenantModel()) {
 
             $tenants = Filament::getCurrentPanel()->getTenantModel()::find(Filament::auth()->user()->getTenants(Filament::getCurrentPanel()));
