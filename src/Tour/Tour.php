@@ -36,6 +36,8 @@ class Tour
 
     private string $doneButtonLabel;
 
+    private string $progressText;
+
     private bool $showProgress = true;
 
     public function __construct(string $id, array $colors)
@@ -46,6 +48,7 @@ class Tour
         $this->nextButtonLabel = Lang::get('filament-tour::filament-tour.button.next');
         $this->previousButtonLabel = Lang::get('filament-tour::filament-tour.button.previous');
         $this->doneButtonLabel = Lang::get('filament-tour::filament-tour.button.done');
+        $this->progressText = '{{current}} of {{total}}';
     }
 
     /**
@@ -200,6 +203,18 @@ class Tour
     }
 
     /**
+     * Set the progress text
+     *
+     * @return $this
+     */
+    public function progressText(string $progressText): self
+    {
+        $this->progressText = $progressText;
+
+        return $this;
+    }
+
+    /**
      * Set the label of the next button.
      *
      * @return $this
@@ -280,6 +295,11 @@ class Tour
     public function getShowProgress(): bool
     {
         return $this->showProgress;
+    }
+
+    public function getProgressText(): string
+    {
+        return $this->progressText;
     }
 
     public function getNextButtonLabel(): string

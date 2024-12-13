@@ -76,6 +76,8 @@ trait HasTour
 
                         'showProgress' => $tour->getShowProgress(),
 
+                        'progressText' => $tour->getProgressText(),
+
                         'colors' => [
                             'light' => $tour->getColors()['light'],
                             'dark' => $tour->getColors()['dark'],

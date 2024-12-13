@@ -292,6 +292,9 @@ Tour::make(... $params)
     //Show or hide the progress indicator
     ->showProgress(bool $showProgress = true)
     
+    //Override the default progress text: "{{current}} of {{total}}"
+    ->progressText(string $progressText)
+    
     // Set the tour visible or not
     ->visible(bool|Closure $visible = true)
     
