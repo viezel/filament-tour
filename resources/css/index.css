@@ -70,7 +70,6 @@
 }
 
 @layer utilities {
-
     .dark .driver-popover-arrow {
         border: 5px solid rgb(var(--gray-900)) !important;
         border-right-color: #0000 !important;
@@ -89,5 +88,32 @@
         top: 0;
         right: 0;
     }
+}
 
+.driver-popover {
+    @apply p-6;
+}
+
+.driver-popover-footer {
+    @apply items-center mt-4;
+}
+
+.driver-popover-navigation-btns {
+    @apply space-x-4;
+}
+
+.driver-popover-footer button {
+    text-shadow: none;
+}
+
+.driver-popover-footer button.driver-popover-prev-btn {
+    @apply relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus:ring-2 disabled:pointer-events-none disabled:opacity-70 rounded-lg gap-1.5 px-3 py-2 text-sm inline-grid shadow-sm bg-white text-gray-950 hover:bg-gray-50 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 ring-1 ring-gray-950/10 dark:ring-white/20;
+}
+
+.driver-popover-footer button.driver-popover-next-btn {
+    @apply relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus:ring-2 disabled:pointer-events-none disabled:opacity-70 rounded-lg gap-1.5 px-3 py-2 text-sm inline-grid shadow-sm bg-custom-600 text-white hover:bg-custom-500 dark:bg-custom-500 dark:hover:bg-custom-400 focus:ring-custom-500/50 dark:focus:ring-custom-400/50;
+}
+
+.driver-popover-close-btn {
+    @apply h-16 w-16 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 text-2xl;
 }

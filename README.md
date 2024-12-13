@@ -205,6 +205,7 @@ public function tours(): array {
     ],
     "alwaysShow": true,
     "visible": true,
+    "showProgress": true,
     "uncloseable": true,
     "ignoreRoutes": false,
     "disableEvents": true,
@@ -287,6 +288,9 @@ Tour::make(... $params)
     
     //Set the tour as always visible, even is already viewed by the user.
     ->alwaysShow(bool|Closure $alwaysShow = true)
+    
+    //Show or hide the progress indicator
+    ->showProgress(bool $showProgress = true)
     
     // Set the tour visible or not
     ->visible(bool|Closure $visible = true)

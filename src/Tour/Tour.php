@@ -36,6 +36,8 @@ class Tour
 
     private string $doneButtonLabel;
 
+    private bool $showProgress = true;
+
     public function __construct(string $id, array $colors)
     {
         $this->id = $id;
@@ -186,6 +188,18 @@ class Tour
     }
 
     /**
+     * Show or hide the progress indicator
+     *
+     * @return $this
+     */
+    public function showProgress(bool $showProgress = true): self
+    {
+        $this->showProgress = $showProgress;
+
+        return $this;
+    }
+
+    /**
      * Set the label of the next button.
      *
      * @return $this
@@ -261,6 +275,11 @@ class Tour
     public function isVisible(): bool
     {
         return $this->visible;
+    }
+
+    public function getShowProgress(): bool
+    {
+        return $this->showProgress;
     }
 
     public function getNextButtonLabel(): string

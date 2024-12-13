@@ -74,6 +74,8 @@ trait HasTour
 
                         'alwaysShow' => $tour->isAlwaysShow(),
 
+                        'showProgress' => $tour->getShowProgress(),
+
                         'colors' => [
                             'light' => $tour->getColors()['light'],
                             'dark' => $tour->getColors()['dark'],
