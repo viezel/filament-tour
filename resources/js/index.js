@@ -145,6 +145,7 @@ document.addEventListener('livewire:initialized', async function () {
                 doneBtnText: tour.doneButtonLabel,
                 showProgress: tour.showProgress,
                 progressText: tour.progressText,
+                popoverClass: tour.popoverClass,
                 onDeselected: ((element, step, {config, state}) => {
 
                 }),

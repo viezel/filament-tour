@@ -78,6 +78,8 @@ trait HasTour
 
                         'progressText' => $tour->getProgressText(),
 
+                        'popoverClass' => $tour->getPopoverClass(),
+
                         'colors' => [
                             'light' => $tour->getColors()['light'],
                             'dark' => $tour->getColors()['dark'],

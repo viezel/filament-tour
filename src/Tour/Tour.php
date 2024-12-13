@@ -37,6 +37,7 @@ class Tour
     private string $doneButtonLabel;
 
     private string $progressText;
+    private string $popoverClass;
 
     private bool $showProgress = true;
 
@@ -180,7 +181,6 @@ class Tour
      */
     public function ignoreRoutes(bool|Closure $ignoreRoutes = true): self
     {
-
         if (is_bool($ignoreRoutes)) {
             $this->ignoreRoutes = $ignoreRoutes;
         } else {
@@ -213,6 +213,19 @@ class Tour
 
         return $this;
     }
+
+    /**
+     * Set a custom class for custom theming
+     *
+     * @return $this
+     */
+    public function popoverClass(string $popoverClass): self
+    {
+        $this->popoverClass = $popoverClass;
+
+        return $this;
+    }
+
 
     /**
      * Set the label of the next button.
@@ -300,6 +313,11 @@ class Tour
     public function getProgressText(): string
     {
         return $this->progressText;
+    }
+
+    public function getPopoverClass(): string
+    {
+        return $this->popoverClass;
     }
 
     public function getNextButtonLabel(): string

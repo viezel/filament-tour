@@ -264,6 +264,17 @@ public function tours(): array {
 ```
 </details>
 
+### Custom theming
+
+In order to create a custom theme for the tour, please set the `popoverClass` property. 
+
+```php
+Tour::make('dashboard')
+    ->popoverClass('my-custom-popover-class')
+```
+
+More info in the [theme section of Driver.js](https://driverjs.com/docs/theming)
+
 # Tour.php
 
 ### Tour methods reference
