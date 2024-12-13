@@ -306,6 +306,9 @@ Tour::make(... $params)
     //Override the default progress text: "{{current}} of {{total}}"
     ->progressText(string $progressText)
     
+     //Set a custom class for custom theming
+    ->popoverClass(string $popoverClass)
+    
     // Set the tour visible or not
     ->visible(bool|Closure $visible = true)
     
