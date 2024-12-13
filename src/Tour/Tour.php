@@ -6,11 +6,13 @@ use Closure;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\Lang;
 use JibayMcs\FilamentTour\Tour\Traits\CanReadJson;
+use JibayMcs\FilamentTour\Tour\Traits\HasTourEvent;
 
 class Tour
 {
     use CanReadJson;
     use EvaluatesClosures;
+    use HasTourEvent;
 
     private string $id;
 

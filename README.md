@@ -74,15 +74,16 @@ namespace App\Filament\Pages;
   
 use JibayMcs\FilamentTour\Tour\HasTour;
   
-class Dashboard extends FilamentDashboard {
-
+class Dashboard extends FilamentDashboard 
+{
     use HasTour;
     // ...  
 
-	public function tours(): array    {    
+	public function tours(): array
+	{    
 		return []; 
-    	}
-}  
+	}
+}
 ```
 ___
 
@@ -92,11 +93,11 @@ ___
 use JibayMcs\FilamentTour\Tour\Step;
 use JibayMcs\FilamentTour\Tour\Tour;
 
-public function tours(): array {
+public function tours(): array 
+{
     return [
        Tour::make('dashboard')
-           ->steps(
-                           
+           ->steps(        
                Step::make()
                    ->title("Welcome to your Dashboard !")
                    ->description(view('tutorial.dashboard.introduction')),
@@ -157,6 +158,53 @@ public function renderPostTour(bool $only_visible_once, array $tours, array $hig
     $this->dispatch('filament-tour::open-tour', $firstTourID);
 }
 ```
+
+### Use Events for your custom business logic
+
+Sometimes you want to run business logic in when certain lifecycle event like completed and dismissed occurs. Here is how to: 
+
+```php
+use JibayMcs\FilamentTour\Tour\Step;
+use JibayMcs\FilamentTour\Tour\Tour;
+use Livewire\Attributes\On;
+
+#[On('dashboard-tour-completed')]
+public function completed($params): void
+{
+    // your logic here
+}
+
+#[On('dashboard-tour-dismissed')]
+public function dismissed($params): void
+{
+    // your logic here
+}
+
+public function tours(): array 
+{
+    return [
+       Tour::make('dashboard')
+           ->route('/dashboard')
+           ->alwaysShow(false)
+           ->dispatchOnComplete('dashboard-tour-completed', [
+                'foo' => 'bar',
+            ])
+            ->dispatchOnDismiss('dashboard-tour-dismissed', [
+                'foo' => 'bar',
+            ])
+           ->steps(        
+               Step::make()
+                   ->title("Welcome to your Dashboard !")
+                   ->description(view('tutorial.dashboard.introduction')),
+               Step::make('.fi-avatar')
+                   ->title('Woaw ! Here is your avatar !')
+                   ->description('You look nice !'),
+           ),
+    ];
+}
+```
+
+
 
 You can also bring up tours for users when they click on a button. See more in the (Event)[#events] section.
 
@@ -305,6 +353,12 @@ Tour::make(... $params)
     
     // Disable all tour steps events
     ->disableEvents(bool|Closure $disableEvents = true)
+    
+    // Dispatch an event like `$dispatch()` when the user completes the tour
+    ->dispatchOnComplete(string $name, ...$args)
+    
+    // Dispatch an event like `$dispatch()` when the user dismisses the tour
+    ->dispatchOnDismiss(string $name, ...$args)
     
     // Bypass route check to show the tour on all pages
     // Maybe useless, but who knows ?

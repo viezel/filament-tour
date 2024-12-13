@@ -68,6 +68,10 @@ trait HasTour
 
                         'uncloseable' => $tour->isUncloseable(),
 
+                        'dispatchOnComplete' => $tour->getDispatchOnComplete(),
+
+                        'dispatchOnDismiss' => $tour->getDispatchOnDismiss(),
+
                         'route' => $route,
 
                         'id' => "{$prefixId}{$tour->getId()}",

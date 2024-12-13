@@ -99,7 +99,6 @@ document.addEventListener('livewire:initialized', async function () {
         }
     }
 
-
     Livewire.on('filament-tour::open-highlight', function (params) {
 
         const id = parseId(params);
@@ -164,9 +163,15 @@ document.addEventListener('livewire:initialized', async function () {
                     if (!localStorage.getItem('tours').includes(tour.id)) {
                         localStorage.setItem('tours', JSON.stringify([...JSON.parse(localStorage.getItem('tours')), tour.id]));
                     }
+                    if (tour.dispatchOnDismiss) {
+                        Livewire.dispatch(tour.dispatchOnDismiss.name, tour.dispatchOnDismiss.params);
+                    }
                 }),
                 onDestroyStarted: ((element, step, {config, state}) => {
                     if (state.activeStep && !state.activeStep.uncloseable && !tour.uncloseable) {
+                        if (tour.dispatchOnDismiss) {
+                            Livewire.dispatch(tour.dispatchOnDismiss.name, tour.dispatchOnDismiss.params);
+                        }
                         driverObj.destroy();
                     }
                 }),
@@ -174,8 +179,6 @@ document.addEventListener('livewire:initialized', async function () {
 
                 }),
                 onNextClick: ((element, step, {config, state}) => {
-
-
                     if (tours.length > 1 && driverObj.isLastStep()) {
                         let index = tours.findIndex(objet => objet.id === tour.id);
 
@@ -185,11 +188,13 @@ document.addEventListener('livewire:initialized', async function () {
                         }
                     }
 
-
                     if (driverObj.isLastStep()) {
-
                         if (!localStorage.getItem('tours').includes(tour.id)) {
                             localStorage.setItem('tours', JSON.stringify([...JSON.parse(localStorage.getItem('tours')), tour.id]));
+                        }
+
+                        if (tour.dispatchOnComplete) {
+                            Livewire.dispatch(tour.dispatchOnComplete.name, tour.dispatchOnComplete.params);
                         }
 
                         driverObj.destroy();
