@@ -5,6 +5,7 @@ namespace Viezel\FilamentTour\Tour\Traits;
 trait HasTourEvent
 {
     private ?array $dispatchOnComplete = null;
+
     private ?array $dispatchOnDismiss = null;
 
     public function dispatchOnComplete(string $name, ...$params): self
@@ -30,5 +31,4 @@ trait HasTourEvent
     {
         return $this->dispatchOnDismiss;
     }
-
 }

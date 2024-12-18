@@ -6,10 +6,10 @@ use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use Viezel\FilamentTour\Livewire\FilamentTourWidget;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Viezel\FilamentTour\Livewire\FilamentTourWidget;
 
 class FilamentTourServiceProvider extends PackageServiceProvider
 {

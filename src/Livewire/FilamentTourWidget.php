@@ -4,11 +4,11 @@ namespace Viezel\FilamentTour\Livewire;
 
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use Viezel\FilamentTour\FilamentTourPlugin;
 use Viezel\FilamentTour\Highlight\HasHighlight;
 use Viezel\FilamentTour\Tour\HasTour;
-use Livewire\Attributes\On;
-use Livewire\Component;
 
 class FilamentTourWidget extends Component
 {

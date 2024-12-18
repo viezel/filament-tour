@@ -39,6 +39,7 @@ class Tour
     private string $doneButtonLabel;
 
     private string $progressText;
+
     private string $popoverClass;
 
     private bool $showProgress = true;
@@ -227,7 +228,6 @@ class Tour
 
         return $this;
     }
-
 
     /**
      * Set the label of the next button.

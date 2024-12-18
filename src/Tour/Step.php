@@ -8,8 +8,8 @@ use Filament\Notifications\Notification;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\HtmlString;
 use Illuminate\View\View;
-use Viezel\FilamentTour\Tour\Step\StepEvent;
 use Throwable;
+use Viezel\FilamentTour\Tour\Step\StepEvent;
 
 class Step
 {
