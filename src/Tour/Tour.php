@@ -38,6 +38,11 @@ class Tour
 
     private string $doneButtonLabel;
 
+    private string $progressText;
+    private string $popoverClass;
+
+    private bool $showProgress = true;
+
     public function __construct(string $id, array $colors)
     {
         $this->id = $id;
@@ -46,6 +51,7 @@ class Tour
         $this->nextButtonLabel = Lang::get('filament-tour::filament-tour.button.next');
         $this->previousButtonLabel = Lang::get('filament-tour::filament-tour.button.previous');
         $this->doneButtonLabel = Lang::get('filament-tour::filament-tour.button.done');
+        $this->progressText = '{{current}} of {{total}}';
     }
 
     /**
@@ -177,7 +183,6 @@ class Tour
      */
     public function ignoreRoutes(bool|Closure $ignoreRoutes = true): self
     {
-
         if (is_bool($ignoreRoutes)) {
             $this->ignoreRoutes = $ignoreRoutes;
         } else {
@@ -186,6 +191,43 @@ class Tour
 
         return $this;
     }
+
+    /**
+     * Show or hide the progress indicator
+     *
+     * @return $this
+     */
+    public function showProgress(bool $showProgress = true): self
+    {
+        $this->showProgress = $showProgress;
+
+        return $this;
+    }
+
+    /**
+     * Set the progress text
+     *
+     * @return $this
+     */
+    public function progressText(string $progressText): self
+    {
+        $this->progressText = $progressText;
+
+        return $this;
+    }
+
+    /**
+     * Set a custom class for custom theming
+     *
+     * @return $this
+     */
+    public function popoverClass(string $popoverClass): self
+    {
+        $this->popoverClass = $popoverClass;
+
+        return $this;
+    }
+
 
     /**
      * Set the label of the next button.
@@ -263,6 +305,21 @@ class Tour
     public function isVisible(): bool
     {
         return $this->visible;
+    }
+
+    public function getShowProgress(): bool
+    {
+        return $this->showProgress;
+    }
+
+    public function getProgressText(): string
+    {
+        return $this->progressText;
+    }
+
+    public function getPopoverClass(): string
+    {
+        return $this->popoverClass;
     }
 
     public function getNextButtonLabel(): string

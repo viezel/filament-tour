@@ -253,6 +253,7 @@ public function tours(): array {
     ],
     "alwaysShow": true,
     "visible": true,
+    "showProgress": true,
     "uncloseable": true,
     "ignoreRoutes": false,
     "disableEvents": true,
@@ -311,6 +312,17 @@ public function tours(): array {
 ```
 </details>
 
+### Custom theming
+
+In order to create a custom theme for the tour, please set the `popoverClass` property. 
+
+```php
+Tour::make('dashboard')
+    ->popoverClass('my-custom-popover-class')
+```
+
+More info in the [theme section of Driver.js](https://driverjs.com/docs/theming)
+
 # Tour.php
 
 ### Tour methods reference
@@ -335,6 +347,15 @@ Tour::make(... $params)
     
     //Set the tour as always visible, even is already viewed by the user.
     ->alwaysShow(bool|Closure $alwaysShow = true)
+    
+    //Show or hide the progress indicator
+    ->showProgress(bool $showProgress = true)
+    
+    //Override the default progress text: "{{current}} of {{total}}"
+    ->progressText(string $progressText)
+    
+     //Set a custom class for custom theming
+    ->popoverClass(string $popoverClass)
     
     // Set the tour visible or not
     ->visible(bool|Closure $visible = true)
