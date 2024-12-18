@@ -30,20 +30,30 @@ trait CanReadJson
         }
 
         $app->alwaysShow($tour['alwaysShow'] ?? false);
+        $app->showProgress($tour['showProgress'] ?? true);
+
+        if (isset($tour['showProgress'])) {
+            $app->progressText($tour['showProgress']);
+        }
+        if (isset($tour['popoverClass'])) {
+            $app->popoverClass($tour['popoverClass']);
+        }
 
         $app->visible($tour['visible'] ?? true);
-
         $app->uncloseable($tour['uncloseable'] ?? false);
-
         $app->disableEvents($tour['disableEvents'] ?? false);
-
         $app->ignoreRoutes($tour['ignoreRoutes'] ?? false);
-
         $app->nextButtonLabel($tour['nextButtonLabel'] ?? Lang::get('filament-tour::filament-tour.button.next'));
-
         $app->previousButtonLabel($tour['previousButtonLabel'] ?? Lang::get('filament-tour::filament-tour.button.previous'));
-
         $app->doneButtonLabel($tour['doneButtonLabel'] ?? Lang::get('filament-tour::filament-tour.button.done'));
+
+        if (isset($tour['dispatchOnComplete'])) {
+            $app->dispatchOnComplete($tour['dispatchOnComplete']['name'], $tour['dispatchOnComplete']['params']);
+        }
+
+        if (isset($tour['dispatchOnDismiss'])) {
+            $app->dispatchOnDismiss($tour['dispatchOnDismiss']['name'], ...$tour['dispatchOnDismiss']['params']);
+        }
 
         foreach ($tour['steps'] as $step) {
             $steps[] = Step::fromArray($step);
