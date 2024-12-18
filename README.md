@@ -1,7 +1,6 @@
 # Bring the power of DriverJs to your Filament panels and start a tour !
 
-## Due to a heavy workload, I'm unable to continue fixing and improving Filament-Tour.
-## But if you feel like patching it, modifying it or rewriting it, don't hesitate to contribute to the project! 
+Original work done by [JibayMcs](https://github.com/JibayMcs). I have continued the work. 
 
 With the power of [DriverJS](https://driverjs.com) bring to your users an elegant way to discover your panels !
 
@@ -12,7 +11,7 @@ You can install this filament plugin via composer:
 For Filament V3.x
 
 ```bash
-composer require jibaymcs/filament-tour:"^3.0"
+composer require viezel/filament-tour:"^3.0"
 ```
 
 For Filament V2.x
@@ -37,14 +36,17 @@ This is the contents of the published config file:
 
 ```php
  return [    
-    "only_visible_once" => true,  
+    'only_visible_once' => true,
+    'enable_css_selector' => false,
+    'tour_prefix_id' => 'tour_',
+    'highlight_prefix_id' => 'highlight_',
 ];
 ```
 
 ## Usage
 
 ```php
-use JibayMcs\FilamentTour\FilamentTourPlugin;
+use Viezel\FilamentTour\FilamentTourPlugin;
 
 public function panel(Panel $panel) {
 	return $panel->default()
@@ -72,7 +74,7 @@ If you don't already have a customized dashboard, please refer to the following 
 <?php  
 namespace App\Filament\Pages;  
   
-use JibayMcs\FilamentTour\Tour\HasTour;
+use Viezel\FilamentTour\Tour\HasTour;
   
 class Dashboard extends FilamentDashboard 
 {
@@ -90,8 +92,8 @@ ___
 ### Create a simple tour !
 
 ```php
-use JibayMcs\FilamentTour\Tour\Step;
-use JibayMcs\FilamentTour\Tour\Tour;
+use Viezel\FilamentTour\Tour\Step;
+use Viezel\FilamentTour\Tour\Tour;
 
 public function tours(): array 
 {
@@ -164,8 +166,8 @@ public function renderPostTour(bool $only_visible_once, array $tours, array $hig
 Sometimes you want to run business logic in when certain lifecycle event like completed and dismissed occurs. Here is how to: 
 
 ```php
-use JibayMcs\FilamentTour\Tour\Step;
-use JibayMcs\FilamentTour\Tour\Tour;
+use Viezel\FilamentTour\Tour\Step;
+use Viezel\FilamentTour\Tour\Tour;
 use Livewire\Attributes\On;
 
 #[On('dashboard-tour-completed')]
@@ -212,11 +214,11 @@ You can also bring up tours for users when they click on a button. See more in t
 
 #### - From a direct URL
 ```php
-use JibayMcs\FilamentTour\Tour\Tour;
+use Viezel\FilamentTour\Tour\Tour;
 
 public function tours(): array {
     return [
-       Tour::make(url: "https://gist.githubusercontent.com/JibayMcs/cc06efddadcfc0a0ff59e116533ee727/raw/8c5c86a3a4b92e4d0586d7a344d0e41f0c175659/TourDashboard.json")
+       Tour::make(url: "https://gist.githubusercontent.com/Viezel/cc06efddadcfc0a0ff59e116533ee727/raw/8c5c86a3a4b92e4d0586d7a344d0e41f0c175659/TourDashboard.json")
     ];
 }
 ```
@@ -224,7 +226,7 @@ public function tours(): array {
 #### - From your Storage
 
 ```php
-use JibayMcs\FilamentTour\Tour\Tour;
+use Viezel\FilamentTour\Tour\Tour;
 use Illuminate\Support\Facades\Storage;
 
 public function tours(): array {
@@ -241,7 +243,7 @@ public function tours(): array {
 > And here you need to construct all your steps. No JSON reading here.
 
 <details>
-	<summary><b>JSON Example file</b> (click to expand) or <a href="https://gist.github.com/JibayMcs/cc06efddadcfc0a0ff59e116533ee727">Github Gist Link</a></summary>
+	<summary><b>JSON Example file</b> (click to expand) or <a href="https://gist.github.com/Viezel/cc06efddadcfc0a0ff59e116533ee727">Github Gist Link</a></summary>
     
 ```json
 {
@@ -328,7 +330,7 @@ More info in the [theme section of Driver.js](https://driverjs.com/docs/theming)
 ### Tour methods reference
 
 ```php
-use JibayMcs\FilamentTour\Tour\Tour;
+use Viezel\FilamentTour\Tour\Tour;
 
 // Instanciate a tour, and provide an id, to trigger it later
 Tour::make(string $id)
@@ -391,7 +393,7 @@ Tour::make(... $params)
 ### Step methods reference
 
 ```php
-use JibayMcs\FilamentTour\Tour\Step;
+use Viezel\FilamentTour\Tour\Step;
 
 // If no element provided, the step act like a modal
 Step::make(string $element = null)
@@ -439,7 +441,7 @@ Same as tour, use the correct trait !
 
 namespace App\Filament\Pages;  
   
-use JibayMcs\FilamentTour\Highlight\HasHighlight;  
+use Viezel\FilamentTour\Highlight\HasHighlight;  
   
 class Dashboard extends FilamentDashboard {
 
@@ -455,7 +457,7 @@ class Dashboard extends FilamentDashboard {
 - Create a simple highlight element !
 
 ```php
-use JibayMcs\FilamentTour\Highlight\Highlight;
+use Viezel\FilamentTour\Highlight\Highlight;
 
 public function highlights(): array {
 
@@ -483,7 +485,7 @@ ___
 ### Highlight methods reference
 
 ```php
-use JibayMcs\FilamentTour\Highlight\Highlight;
+use Viezel\FilamentTour\Highlight\Highlight;
 
 // Instantiate a highlight with a CSS select of the element where the icon button is next to
 Highlight::make(string $parent)
@@ -576,7 +578,7 @@ To enable the tool, simply use `FilamentTourPlugin::make()->enableCssSelector()`
 <br>
 <kbd>**Ctrl**</kbd>|<kbd>**Cmd**</kbd> + <kbd>**C**</kbd> To copy the CSS Selector of the highlighted element.
 
-[CSS Selector Tool Utilisation Preview](https://github.com/JibayMcs/filament-tour/assets/7621593/162db2a3-1f46-4493-ae0d-cffcb2f00462)
+[CSS Selector Tool Utilisation Preview](https://github.com/Viezel/filament-tour/assets/7621593/162db2a3-1f46-4493-ae0d-cffcb2f00462)
 
 # Extra Resources
 
@@ -604,6 +606,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [JibayMcs](https://github.com/JibayMcs)
+- [Viezel](https://gituhb.com/viezel)
 - [DriverJS](https://driverjs.com)
 - [All Contributors](../../contributors)
 

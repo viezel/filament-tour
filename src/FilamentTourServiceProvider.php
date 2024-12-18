@@ -1,12 +1,12 @@
 <?php
 
-namespace JibayMcs\FilamentTour;
+namespace Viezel\FilamentTour;
 
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use JibayMcs\FilamentTour\Livewire\FilamentTourWidget;
+use Viezel\FilamentTour\Livewire\FilamentTourWidget;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -48,6 +48,6 @@ class FilamentTourServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'jibaymcs/filament-tour';
+        return 'Viezel/filament-tour';
     }
 }

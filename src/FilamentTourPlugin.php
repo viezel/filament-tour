@@ -1,6 +1,6 @@
 <?php
 
-namespace JibayMcs\FilamentTour;
+namespace Viezel\FilamentTour;
 
 use Closure;
 use Filament\Contracts\Plugin;

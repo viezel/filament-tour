@@ -1,6 +1,6 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tour\Traits;
+namespace Viezel\FilamentTour\Tour\Traits;
 
 use Filament\Facades\Filament;
 

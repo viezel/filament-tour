@@ -1,12 +1,12 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tour;
+namespace Viezel\FilamentTour\Tour;
 
 use Closure;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\Lang;
-use JibayMcs\FilamentTour\Tour\Traits\CanReadJson;
-use JibayMcs\FilamentTour\Tour\Traits\HasTourEvent;
+use Viezel\FilamentTour\Tour\Traits\CanReadJson;
+use Viezel\FilamentTour\Tour\Traits\HasTourEvent;
 
 class Tour
 {

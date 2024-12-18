@@ -1,6 +1,6 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Database\Factories;
+namespace Viezel\FilamentTour\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

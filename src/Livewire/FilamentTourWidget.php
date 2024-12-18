@@ -1,12 +1,12 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Livewire;
+namespace Viezel\FilamentTour\Livewire;
 
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
-use JibayMcs\FilamentTour\FilamentTourPlugin;
-use JibayMcs\FilamentTour\Highlight\HasHighlight;
-use JibayMcs\FilamentTour\Tour\HasTour;
+use Viezel\FilamentTour\FilamentTourPlugin;
+use Viezel\FilamentTour\Highlight\HasHighlight;
+use Viezel\FilamentTour\Tour\HasTour;
 use Livewire\Attributes\On;
 use Livewire\Component;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tour\Traits;
+namespace Viezel\FilamentTour\Tour\Traits;
 
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
-use JibayMcs\FilamentTour\Tour\Step;
+use Viezel\FilamentTour\Tour\Step;
 
 trait CanReadJson
 {

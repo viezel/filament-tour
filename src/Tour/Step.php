@@ -1,6 +1,6 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tour;
+namespace Viezel\FilamentTour\Tour;
 
 use Closure;
 use Exception;
@@ -8,7 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\HtmlString;
 use Illuminate\View\View;
-use JibayMcs\FilamentTour\Tour\Step\StepEvent;
+use Viezel\FilamentTour\Tour\Step\StepEvent;
 use Throwable;
 
 class Step

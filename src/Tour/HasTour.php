@@ -1,9 +1,9 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tour;
+namespace Viezel\FilamentTour\Tour;
 
 use Filament\Facades\Filament;
-use JibayMcs\FilamentTour\Tour\Traits\CanConstructRoute;
+use Viezel\FilamentTour\Tour\Traits\CanConstructRoute;
 
 trait HasTour
 {
