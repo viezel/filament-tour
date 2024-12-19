@@ -7,6 +7,7 @@ use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\Blade;
+use Viezel\FilamentTour\Tour\Enums\TourHistoryType;
 
 class FilamentTourPlugin implements Plugin
 {
@@ -16,7 +17,7 @@ class FilamentTourPlugin implements Plugin
 
     private ?bool $enableCssSelector = null;
 
-    private string $historyType = 'local_storage';
+    private TourHistoryType $historyType = TourHistoryType::LocalStorage;
 
     public static function make(): static
     {
@@ -41,7 +42,9 @@ class FilamentTourPlugin implements Plugin
         $panel->renderHook('panels::body.start', fn () => Blade::render('<livewire:filament-tour-widget/>'));
     }
 
-    public function boot(Panel $panel): void {}
+    public function boot(Panel $panel): void
+    {
+    }
 
     public function onlyVisibleOnce(bool $onlyVisibleOnce = true): self
     {
@@ -72,14 +75,14 @@ class FilamentTourPlugin implements Plugin
         return $this->enableCssSelector;
     }
 
-    public function historyType(string $type): self
+    public function historyType(TourHistoryType $type): self
     {
         $this->historyType = $type;
 
         return $this;
     }
 
-    public function getHistoryType(): string
+    public function getHistoryType(): TourHistoryType
     {
         return $this->historyType;
     }

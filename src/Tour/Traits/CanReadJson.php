@@ -43,6 +43,7 @@ trait CanReadJson
         $app->uncloseable($tour['uncloseable'] ?? false);
         $app->disableEvents($tour['disableEvents'] ?? false);
         $app->ignoreRoutes($tour['ignoreRoutes'] ?? false);
+        $app->shouldCompleteOnDismiss($tour['shouldCompleteOnDismiss'] ?? true);
         $app->nextButtonLabel($tour['nextButtonLabel'] ?? Lang::get('filament-tour::filament-tour.button.next'));
         $app->previousButtonLabel($tour['previousButtonLabel'] ?? Lang::get('filament-tour::filament-tour.button.previous'));
         $app->doneButtonLabel($tour['doneButtonLabel'] ?? Lang::get('filament-tour::filament-tour.button.done'));
