@@ -22,7 +22,8 @@ class FilamentTourServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasConfigFile(self::$name)
             ->hasTranslations()
-            ->hasViews(static::$viewNamespace);
+            ->hasViews(static::$viewNamespace)
+            ->hasMigration('create_tour_history_table');
     }
 
     public function packageBooted(): void
@@ -48,6 +49,6 @@ class FilamentTourServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'Viezel/filament-tour';
+        return 'viezel/filament-tour';
     }
 }

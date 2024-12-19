@@ -40,7 +40,9 @@ class Tour
 
     private string $progressText;
 
-    private string $popoverClass;
+    private ?string $popoverClass;
+
+    private bool $shouldCompleteOnDismiss = true;
 
     private bool $showProgress = true;
 
@@ -53,6 +55,7 @@ class Tour
         $this->previousButtonLabel = Lang::get('filament-tour::filament-tour.button.previous');
         $this->doneButtonLabel = Lang::get('filament-tour::filament-tour.button.done');
         $this->progressText = '{{current}} of {{total}}';
+        $this->popoverClass = null;
     }
 
     /**
@@ -266,6 +269,18 @@ class Tour
     }
 
     /**
+     * Should tour be marked as completed if user dismisses it
+     *
+     * @return $this
+     */
+    public function shouldCompleteOnDismiss(bool $shouldCompleteOnDismiss = true): self
+    {
+        $this->shouldCompleteOnDismiss = $shouldCompleteOnDismiss;
+
+        return $this;
+    }
+
+    /**
      * Set the steps of your tour.
      *
      * @return $this
@@ -317,7 +332,7 @@ class Tour
         return $this->progressText;
     }
 
-    public function getPopoverClass(): string
+    public function getPopoverClass(): ?string
     {
         return $this->popoverClass;
     }
@@ -350,5 +365,10 @@ class Tour
     public function isRoutesIgnored(): bool
     {
         return $this->ignoreRoutes;
+    }
+
+    public function getShouldCompleteOnDismiss(): bool
+    {
+        return $this->shouldCompleteOnDismiss;
     }
 }

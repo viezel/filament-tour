@@ -1,35 +1,29 @@
-# Bring the power of DriverJs to your Filament panels and start a tour !
+# Bring the power of DriverJs to your Filament panels
 
-Original work done by [JibayMcs](https://github.com/JibayMcs). I have continued the work. 
-
-With the power of [DriverJS](https://driverjs.com) bring to your users an elegant way to discover your panels !
+With the power of [DriverJS](https://driverjs.com) bring to your users an elegant way to discover your panels. Original work done by [JibayMcs](https://github.com/JibayMcs).
 
 ## Installation
 
 You can install this filament plugin via composer:
 
-For Filament V3.x
+For Filament v3.x
 
 ```bash
 composer require viezel/filament-tour:"^3.0"
 ```
 
-For Filament V2.x
+For Filament v2.x
 
 ```bash
 composer require jibaymcs/filament-tour:"^2.0"
 ```
 
-You can publish the config file with:
+You can publish the config/views/migrations file with:
 
 ```bash 
 php artisan vendor:publish --tag="filament-tour-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
 php artisan vendor:publish --tag="filament-tour-views"
+php artisan vendor:publish --tag="filament-tour-migrations"
 ```
 
 This is the contents of the published config file:
@@ -55,12 +49,42 @@ public function panel(Panel $panel) {
 }  
 ```
 
-You can also enable or disable the check on the local storage if the current user have already seen the tour.
+You can also enable or disable the check on the local storage if the current user have already completed the tour.
 
 ```php
 // default  : true  
 FilamentTourPlugin::make()->onlyVisibleOnce(false)  
 ```
+
+## Tour History Storage
+
+By default, the Tour plugin uses local storage, which works great for both **authenticated users and guest users** 
+as it will store a tour completion locally in the users' browser. This options gets you started quickly. 
+
+However, sometimes you want to opt-in for at more robust solution to ensure that users does not experience the tour twice. 
+In this situation you might want to use the database option. It will kept record of completed tours in the database.
+This option only works for **authenticated users**.
+
+```php
+use Viezel\FilamentTour\FilamentTourPlugin;
+use Viezel\FilamentTour\Tour\Enums\TourHistoryType;
+
+public function panel(Panel $panel) {
+	return $panel->default()
+		->[...]
+		->plugins([ 
+		    FilamentTourPlugin::make() 
+		        ->historyType(TourHistoryType::Database),  
+        ]);
+} 
+```
+
+Remember to publish the migrations in order to use the database option.
+
+```bash
+php artisan vendor:publish --tag="filament-tour-migrations"
+```
+
 
 # Start a tour !
 
@@ -218,7 +242,7 @@ use Viezel\FilamentTour\Tour\Tour;
 
 public function tours(): array {
     return [
-       Tour::make(url: "https://gist.githubusercontent.com/Viezel/cc06efddadcfc0a0ff59e116533ee727/raw/8c5c86a3a4b92e4d0586d7a344d0e41f0c175659/TourDashboard.json")
+       Tour::make(url: "https://example.com/tour-dashboard.json")
     ];
 }
 ```
@@ -243,7 +267,7 @@ public function tours(): array {
 > And here you need to construct all your steps. No JSON reading here.
 
 <details>
-	<summary><b>JSON Example file</b> (click to expand) or <a href="https://gist.github.com/Viezel/cc06efddadcfc0a0ff59e116533ee727">Github Gist Link</a></summary>
+	<summary><b>JSON example file</b> (click to expand)</summary>
     
 ```json
 {
@@ -314,7 +338,7 @@ public function tours(): array {
 ```
 </details>
 
-### Custom theming
+### Custom Theming
 
 In order to create a custom theme for the tour, please set the `popoverClass` property. 
 
@@ -332,7 +356,7 @@ More info in the [theme section of Driver.js](https://driverjs.com/docs/theming)
 ```php
 use Viezel\FilamentTour\Tour\Tour;
 
-// Instanciate a tour, and provide an id, to trigger it later
+// Instantiate a tour, and provide an id, to trigger it later
 Tour::make(string $id)
 
 // Since 3.1.0.1, JSON Support update
@@ -383,7 +407,10 @@ Tour::make(... $params)
     // Dispatch an event like `$dispatch()` when the user dismisses the tour
     ->dispatchOnDismiss(string $name, ...$args)
     
-    // Bypass route check to show the tour on all pages
+    // Should tour be marked as completed if user dismisses it
+    ->shouldCompleteOnDismiss(bool $shouldCompleteOnDismiss = true)
+    
+    // Should tour be marked as completed if user dismisses it
     // Maybe useless, but who knows ?
     ->ignoreRoutes(bool|Closure $ignoreRoutes = true)
 ```
@@ -432,9 +459,7 @@ Step::make(string $element = null)
 
 # Highlights
 
-Same as tour, use the correct trait !
-
-- Use the correct trait to registers your highlights !
+Same as tour, use the `HasHighlight` trait. 
 
 ```php
 <?php
@@ -446,9 +471,9 @@ use Viezel\FilamentTour\Highlight\HasHighlight;
 class Dashboard extends FilamentDashboard {
 
     use HasHighlight;
-    // ...  
   
-    public function highlights(): array {    
+    public function highlights(): array 
+    {    
 	    return []; 
     }
 }
@@ -459,8 +484,8 @@ class Dashboard extends FilamentDashboard {
 ```php
 use Viezel\FilamentTour\Highlight\Highlight;
 
-public function highlights(): array {
-
+public function highlights(): array 
+{
     return [
 	 
         Highlight::make('.fi-header-heading')
@@ -472,8 +497,7 @@ public function highlights(): array {
             ->element('.fi-avatar')
             ->title("Pssst ! That's your avatar")
             ->icon('heroicon-o-user-circle')
-            ->iconColor('primary'),
-            	
+            ->iconColor('primary'), 	
     ];
 }
 ```
@@ -528,7 +552,14 @@ ___
   <br>
 - `filament-tour::open-tour` **string** id  
   Open a specific tour by its id.
-
+  <br>
+  <br>
+- `filament-tour::tour-completed` **string** id
+  Occurs when tour has completed
+  <br>
+  <br>
+- `filament-tour::tour-dismisses` **string** id
+  Occurs when user closes the tour before its completed
 ___
 
 Filament Tour, dispatch some event to show tours and highlights.
@@ -552,8 +583,14 @@ Basically, if you want a custom button to trigger a tour or a highlight, you can
 <button wire:click="$dispatch('filament-tour::open-tour', 'dashboard')">Show Dashboard tour</button>
 ```
 
-> **ℹ️**  
-> Don't forget to prefix your event with `filament-tour::` to trigger the correct event.
+```php
+// Filament Action Button
+Action::make('open_tour_btn')
+    ->label('Show Dashboard tour')
+    ->icon('heroicon-o-play-circle')
+    ->dispatch('filament-tour::open-tour', ['dashboard']),
+```
+
 
 # Development Tool
 

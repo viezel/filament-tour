@@ -2,7 +2,6 @@ import {driver} from "driver.js";
 import {initCssSelector} from './css-selector.js';
 
 document.addEventListener('livewire:initialized', async function () {
-
     initCssSelector();
 
     let pluginData;
@@ -45,7 +44,7 @@ document.addEventListener('livewire:initialized', async function () {
         pluginData.tours.forEach((tour) => {
             tours.push(tour);
 
-            if (!localStorage.getItem('tours')) {
+            if (pluginData.history_type === 'local_storage' && !localStorage.getItem('tours')) {
                 localStorage.setItem('tours', "[]");
             }
         });
@@ -57,19 +56,55 @@ document.addEventListener('livewire:initialized', async function () {
                 //TODO Add a more precise/efficient selector
                 waitForElement(highlight.parent, function (selector) {
                     selector.parentNode.style.position = 'relative';
-
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = highlight.button;
-
                     tempDiv.firstChild.classList.add(highlight.position);
-
                     selector.parentNode.insertBefore(tempDiv.firstChild, selector)
                 });
-
                 highlights.push(highlight);
             }
         });
     });
+
+    function hasTourCompleted(id) {
+        // TourHistoryType::None - do nothing
+
+        if (pluginData.history_type === 'local_storage') {
+            return localStorage.getItem('tours').includes(id);
+        }
+
+        if (pluginData.history_type === 'database') {
+            return pluginData.completed_tours.includes(id.replace(pluginData.prefix, ''));
+        }
+    }
+
+    function shouldCompleteOnDismiss(tour) {
+        return tour.shouldCompleteOnDismiss;
+    }
+
+    function markTourAsComplete(tour) {
+        // TourHistoryType::None - do nothing
+        if (tour.dispatchOnComplete) {
+            Livewire.dispatch(tour.dispatchOnComplete.name, tour.dispatchOnComplete.params);
+        }
+
+        if (pluginData.history_type === 'local_storage') {
+            localStorage.setItem('tours', JSON.stringify([...JSON.parse(localStorage.getItem('tours')), tour.id]));
+        }
+
+        if (pluginData.history_type === 'database') {
+            Livewire.dispatch('filament-tour::tour-completed', {id: tour.id});
+        }
+    }
+
+    function markTourAsDismissed(tour) {
+        if (tour.dispatchOnDismiss) {
+            Livewire.dispatch(tour.dispatchOnDismiss.name, tour.dispatchOnDismiss.params);
+        }
+        if (pluginData.history_type === 'database') {
+            Livewire.dispatch('filament-tour::tour-dismissed', {id: tour.id});
+        }
+    }
 
     function selectTour(tours, startIndex = 0) {
         for (let i = startIndex; i < tours.length; i++) {
@@ -78,7 +113,7 @@ document.addEventListener('livewire:initialized', async function () {
             let conditionRoutesIgnored = tour.routesIgnored;
             let conditionRouteMatches = tour.route === window.location.pathname;
             let conditionVisibleOnce = !pluginData.only_visible_once ||
-                (pluginData.only_visible_once && !localStorage.getItem('tours').includes(tour.id));
+                (pluginData.only_visible_once && !hasTourCompleted(tour.id));
 
             if (
                 (conditionAlwaysShow && conditionRoutesIgnored) ||
@@ -95,25 +130,19 @@ document.addEventListener('livewire:initialized', async function () {
     Livewire.on('filament-tour::open-highlight', function (params) {
         const id = parseId(params);
         let highlight = highlights.find(element => element.id === id);
-
         if (highlight) {
             driver({
                 overlayColor: localStorage.theme === 'light' ? highlight.colors.light : highlight.colors.dark,
-
                 onPopoverRender: (popover, {config, state}) => {
                     popover.title.innerHTML = "";
                     popover.title.innerHTML = state.activeStep.popover.title;
-
                     if (!state.activeStep.popover.description) {
                         popover.title.firstChild.style.justifyContent = 'center';
                     }
-
                     let contentClasses = "dark:text-white fi-section rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10 mb-4";
-
                     popover.footer.parentElement.classList.add(...contentClasses.split(" "));
                 },
             }).highlight(highlight);
-
         } else {
             console.error(`Highlight with id '${id}' not found`);
         }
@@ -121,7 +150,8 @@ document.addEventListener('livewire:initialized', async function () {
 
     Livewire.on('filament-tour::open-tour', function (params) {
         const id = parseId(params);
-        let tour = tours.find(element => element.id === `tour_${id}`);
+        let tourId = pluginData.prefix + id;
+        let tour = tours.find(element => element.id === tourId);
 
         if (tour) {
             openTour(tour);
@@ -131,11 +161,8 @@ document.addEventListener('livewire:initialized', async function () {
     });
 
     function openTour(tour) {
-
         let steps = JSON.parse(tour.steps);
-
         if (steps.length > 0) {
-
             const driverObj = driver({
                 allowClose: true,
                 disableActiveInteraction: true,
@@ -150,20 +177,25 @@ document.addEventListener('livewire:initialized', async function () {
 
                 }),
                 onCloseClick: ((element, step, {config, state}) => {
-                    if (state.activeStep && (!state.activeStep.uncloseable || tour.uncloseable))
+                    if (state.activeStep && (!state.activeStep.uncloseable || tour.uncloseable)) {
+                        if (!driverObj.isLastStep() && !hasTourCompleted(tour.id)) {
+                            if (shouldCompleteOnDismiss(tour)) {
+                                markTourAsComplete(tour);
+                            } else {
+                                markTourAsDismissed(tour);
+                            }
+                        }
                         driverObj.destroy();
-
-                    if (!localStorage.getItem('tours').includes(tour.id)) {
-                        localStorage.setItem('tours', JSON.stringify([...JSON.parse(localStorage.getItem('tours')), tour.id]));
-                    }
-                    if (tour.dispatchOnDismiss) {
-                        Livewire.dispatch(tour.dispatchOnDismiss.name, tour.dispatchOnDismiss.params);
                     }
                 }),
                 onDestroyStarted: ((element, step, {config, state}) => {
                     if (state.activeStep && !state.activeStep.uncloseable && !tour.uncloseable) {
-                        if (tour.dispatchOnDismiss) {
-                            Livewire.dispatch(tour.dispatchOnDismiss.name, tour.dispatchOnDismiss.params);
+                        if (!driverObj.isLastStep()) {
+                            if (shouldCompleteOnDismiss(tour)) {
+                                markTourAsComplete(tour);
+                            } else {
+                                markTourAsDismissed(tour);
+                            }
                         }
                         driverObj.destroy();
                     }
@@ -182,12 +214,8 @@ document.addEventListener('livewire:initialized', async function () {
                     }
 
                     if (driverObj.isLastStep()) {
-                        if (!localStorage.getItem('tours').includes(tour.id)) {
-                            localStorage.setItem('tours', JSON.stringify([...JSON.parse(localStorage.getItem('tours')), tour.id]));
-                        }
-
-                        if (tour.dispatchOnComplete) {
-                            Livewire.dispatch(tour.dispatchOnComplete.name, tour.dispatchOnComplete.params);
+                        if (!hasTourCompleted(tour.id)) {
+                            markTourAsComplete(tour);
                         }
 
                         driverObj.destroy();
