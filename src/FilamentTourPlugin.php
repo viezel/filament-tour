@@ -42,9 +42,7 @@ class FilamentTourPlugin implements Plugin
         $panel->renderHook('panels::body.start', fn () => Blade::render('<livewire:filament-tour-widget/>'));
     }
 
-    public function boot(Panel $panel): void
-    {
-    }
+    public function boot(Panel $panel): void {}
 
     public function onlyVisibleOnce(bool $onlyVisibleOnce = true): self
     {
