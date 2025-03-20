@@ -99,6 +99,18 @@ class Tour
     }
 
     /**
+     * Set the route name where the tour will be shown.
+     *
+     * @return $this
+     */
+    public function routeName(string $routeName): self
+    {
+        $this->routeName = $routeName;
+
+        return $this;
+    }
+
+    /**
      * Set the colors of your background highlighted elements, based on your current filament theme.
      * <br>
      *  - **rgb(0,0,0)** by default for **$light**
