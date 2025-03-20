@@ -147,6 +147,12 @@ tour show up on - if you'd like to render the tour on the main admin panels dash
 ->route('/admin')
 ```
 
+or use a route name
+
+```php
+->routeName('filament.admin.pages.dashboard')
+```
+
 Alternatively, you may want to show tours based on more complex logic, for example if a user hasn't created a specific
 type of content.  In order to show a tour you will need to create an event listener in your livewire component.
 Continuing with the Dashboard example, let's show a tour only if the user hasn't created a new Post yet.  We can write
@@ -210,7 +216,7 @@ public function tours(): array
 {
     return [
        Tour::make('dashboard')
-           ->route('/dashboard')
+           ->routeName('filament.admin.pages.dashboard')
            ->alwaysShow(false)
            ->dispatchOnComplete('dashboard-tour-completed', [
                 'foo' => 'bar',
@@ -365,22 +371,25 @@ Tour::make(... $params)
     // Define a custom url to trigger your tour 
     ->route(string $route)
     
-    //Register the steps of your tour
+    // or use a route name to trigger your tour 
+    ->routeName(string $routeName)
+    
+    // Register the steps of your tour
     ->steps(Step ...$steps)
     
     // Define a color of your highlight overlay for the dark and light theme of your filament panel
     ->colors(string $light, string $dark)
     
-    //Set the tour as always visible, even is already viewed by the user.
+    // Set the tour as always visible, even is already viewed by the user.
     ->alwaysShow(bool|Closure $alwaysShow = true)
     
-    //Show or hide the progress indicator
+    // Show or hide the progress indicator
     ->showProgress(bool $showProgress = true)
     
-    //Override the default progress text: "{{current}} of {{total}}"
+    // Override the default progress text: "{{current}} of {{total}}"
     ->progressText(string $progressText)
     
-     //Set a custom class for custom theming
+    // Set a custom class for custom theming
     ->popoverClass(string $popoverClass)
     
     // Set the tour visible or not
@@ -444,13 +453,13 @@ Step::make(string $element = null)
     // Default: true
     ->uncloseable(bool|Closure $uncloseable = true)
     
-    //Simulate a click on a CSS selected element when you press the next button
+    // Simulate a click on a CSS selected element when you press the next button
     ->clickOnNext(string|Closure $selector)
     
     // Send a notification when you press the next button
     ->notifyOnNext(Notification $notification)
     
-    //Redirect you to a custom url or a route() when you press the next button
+    // Redirect you to a custom url or a route() when you press the next button
     ->redirectOnNext(string $url, bool $newTab = false)
     
     // Dispatch an event like `$dispatch()` when you press the next button

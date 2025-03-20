@@ -4,6 +4,7 @@ namespace Viezel\FilamentTour\Livewire;
 
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -80,6 +81,7 @@ class FilamentTourWidget extends Component
             only_visible_once: $historyType !== TourHistoryType::None && (is_bool(FilamentTourPlugin::get()->isOnlyVisibleOnce()) ? FilamentTourPlugin::get()->isOnlyVisibleOnce() : config('filament-tour.only_visible_once')),
             tours: $this->tours,
             highlights: $this->highlights,
+            current_route_name: $this->getCurrentRouteName(),
         );
 
         if (config('app.env') != 'production') {
@@ -105,5 +107,17 @@ class FilamentTourWidget extends Component
     public function render()
     {
         return view('filament-tour::livewire.filament-tour-widget');
+    }
+
+    private function getCurrentRouteName(): ?string
+    {
+        if (request()->route()->named('livewire.update')) {
+            $previousUrl = URL::previous();
+            $previousRoute = app('router')->getRoutes()->match(request()->create($previousUrl));
+
+            return $previousRoute->getName();
+        }
+
+        return request()->route()->getName();
     }
 }
