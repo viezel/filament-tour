@@ -20,6 +20,8 @@ class Tour
 
     private ?string $route = null;
 
+    private ?string $routeName = null;
+
     private array $colors = [];
 
     private bool $alwaysShow = false;
@@ -300,6 +302,11 @@ class Tour
     public function getRoute(): ?string
     {
         return $this->route;
+    }
+
+    public function getRouteName(): ?string
+    {
+        return $this->routeName;
     }
 
     public function getSteps(): array

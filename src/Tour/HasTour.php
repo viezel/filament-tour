@@ -62,6 +62,7 @@ trait HasTour
                         'dispatchOnComplete' => $tour->getDispatchOnComplete(),
                         'dispatchOnDismiss' => $tour->getDispatchOnDismiss(),
                         'route' => $route,
+                        'routeName' => $tour->getRouteName(),
                         'alwaysShow' => $tour->isAlwaysShow(),
                         'showProgress' => $tour->getShowProgress(),
                         'progressText' => $tour->getProgressText(),

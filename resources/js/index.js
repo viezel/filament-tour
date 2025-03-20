@@ -111,7 +111,7 @@ document.addEventListener('livewire:initialized', async function () {
             let tour = tours[i];
             let conditionAlwaysShow = tour.alwaysShow;
             let conditionRoutesIgnored = tour.routesIgnored;
-            let conditionRouteMatches = tour.route === window.location.pathname;
+            let conditionRouteMatches = (tour.route === window.location.pathname) || (tour.routeName === pluginData.current_route_name);
             let conditionVisibleOnce = !pluginData.only_visible_once ||
                 (pluginData.only_visible_once && !hasTourCompleted(tour.id));
 

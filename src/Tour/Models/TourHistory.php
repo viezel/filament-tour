@@ -30,6 +30,14 @@ class TourHistory extends Model
         return TourHistoryFactory::new();
     }
 
+    public static function hasCompletedTour(string $tourId): bool
+    {
+        return self::query()
+            ->where('user_id', '=', Filament::auth()->id())
+            ->where('tour_id', '=', $tourId)
+            ->exists();
+    }
+
     public static function getCompletedTours(): array
     {
         return self::query()
