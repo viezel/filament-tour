@@ -49,7 +49,7 @@ document.addEventListener('livewire:initialized', async function () {
             }
         });
 
-        if (pluginData.auto_start_tours === undefined || pluginData.auto_start_tours) {
+        if (pluginData.auto_start_tours === undefined || pluginData.auto_start_tours === true) {
             selectTour(tours);
         }
 

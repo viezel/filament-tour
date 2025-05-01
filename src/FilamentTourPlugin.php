@@ -23,7 +23,7 @@ class FilamentTourPlugin implements Plugin
 
     public static function make(): static
     {
-        return app(static::class)->autoStart(config('filament-tour.tour_auto_start', true));
+        return app(static::class)->autoStart(config('filament-tour.auto_start_tours', true));
     }
 
     public static function get(): static
