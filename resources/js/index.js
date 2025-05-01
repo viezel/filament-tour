@@ -49,7 +49,9 @@ document.addEventListener('livewire:initialized', async function () {
             }
         });
 
-        selectTour(tours);
+        if (pluginData.auto_start_tours === undefined || pluginData.auto_start_tours) {
+            selectTour(tours);
+        }
 
         pluginData.highlights.forEach((highlight) => {
             if (highlight.route === window.location.pathname) {
