@@ -56,6 +56,35 @@ You can also enable or disable the check on the local storage if the current use
 FilamentTourPlugin::make()->onlyVisibleOnce(false)  
 ```
 
+# Tour Autostart
+
+By default, the tours will be started automatically when the page is loaded.
+
+You can disable this behaviour globally by setting `auto_start_tours` to false in `config/filament-tour.php`.
+
+```php
+<?php
+
+return [
+    'only_visible_once' => true,
+    'enable_css_selector' => false,
+    'tour_prefix_id' => 'tour_',
+    'highlight_prefix_id' => 'highlight_',
+    'auto_start_tours' => false,
+];
+```
+
+Alternatively, you can disable the auto start for a specific panel by calling the `autoStart` method with a parameter of `false`.
+
+```php
+use Viezel\FilamentTour\FilamentTourPlugin;
+
+public function panel(Panel $panel) {
+	return $panel->default()
+		->[...]
+		->plugins([ FilamentTourPlugin::make()->autoStart(false) ]);
+}  
+```
 ## Tour History Storage
 
 By default, the Tour plugin uses local storage, which works great for both **authenticated users and guest users** 

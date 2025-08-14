@@ -82,7 +82,6 @@ class Tour
                             'light' => 'rgb(0,0,0)',
                         ],
                     ]);
-                break;
         }
     }
 

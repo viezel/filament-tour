@@ -18,6 +18,8 @@ class FilamentTourWidget extends Component
 {
     public array $tours = [];
 
+    public bool $autoStartTours = true;
+
     public array $highlights = [];
 
     #[On('filament-tour::load-elements')]
@@ -62,7 +64,8 @@ class FilamentTourWidget extends Component
             $this->highlights = array_merge($this->highlights, (new $class)->constructHighlights($class));
         }
 
-        $historyType = FilamentTourPlugin::get()->getHistoryType();
+        $filamentTourPlugin = FilamentTourPlugin::get();
+        $historyType = $filamentTourPlugin->getHistoryType();
 
         // default to no history, if using database option and guest users
         if ($historyType === TourHistoryType::Database && auth()->guest()) {
@@ -78,14 +81,15 @@ class FilamentTourWidget extends Component
             history_type: $historyType->value,
             completed_tours: $completedTours,
             prefix: config('filament-tour.tour_prefix_id'),
-            only_visible_once: $historyType !== TourHistoryType::None && (is_bool(FilamentTourPlugin::get()->isOnlyVisibleOnce()) ? FilamentTourPlugin::get()->isOnlyVisibleOnce() : config('filament-tour.only_visible_once')),
+            only_visible_once: $historyType !== TourHistoryType::None && (is_bool($filamentTourPlugin->isOnlyVisibleOnce()) ? $filamentTourPlugin->isOnlyVisibleOnce() : config('filament-tour.only_visible_once')),
             tours: $this->tours,
             highlights: $this->highlights,
             current_route_name: $this->getCurrentRouteName(),
+            auto_start_tours: $filamentTourPlugin->getAutoStart(),
         );
 
         if (config('app.env') != 'production') {
-            $hasCssSelector = is_bool(FilamentTourPlugin::get()->isCssSelectorEnabled()) ? FilamentTourPlugin::get()->isCssSelectorEnabled() : config('filament-tour.enable_css_selector');
+            $hasCssSelector = is_bool($filamentTourPlugin->isCssSelectorEnabled()) ? $filamentTourPlugin->isCssSelectorEnabled() : config('filament-tour.enable_css_selector');
             $this->dispatch('filament-tour::change-css-selector-status', enabled: $hasCssSelector);
         }
     }
