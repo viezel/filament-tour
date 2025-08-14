@@ -90,7 +90,7 @@ class FilamentTourPlugin implements Plugin
     public function autoStart(bool|Closure $autoStart = true): self
     {
         if (is_callable($autoStart)) {
-            $this->autoStart = (bool)$autoStart();
+            $this->autoStart = (bool) $autoStart();
         } elseif (is_bool($autoStart)) {
             $this->autoStart = $autoStart;
         }
