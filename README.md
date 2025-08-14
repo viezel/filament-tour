@@ -53,7 +53,7 @@ You can also enable or disable the check on the local storage if the current use
 
 ```php
 // default  : true  
-FilamentTourPlugin::make()->onlyVisibleOnce(false)  
+FilamentTourPlugin::make()->onlyVisibleOnce(fn() => app()->isProduction())  
 ```
 
 # Tour Autostart
