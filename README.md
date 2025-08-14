@@ -6,6 +6,12 @@ With the power of [DriverJS](https://driverjs.com) bring to your users an elegan
 
 You can install this filament plugin via composer:
 
+For Filament v4.x
+
+```bash
+composer require viezel/filament-tour
+```
+
 For Filament v3.x
 
 ```bash
