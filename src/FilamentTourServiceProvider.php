@@ -1,15 +1,15 @@
 <?php
 
-namespace JibayMcs\FilamentTour;
+namespace Viezel\FilamentTour;
 
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use JibayMcs\FilamentTour\Livewire\FilamentTourWidget;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Viezel\FilamentTour\Livewire\FilamentTourWidget;
 
 class FilamentTourServiceProvider extends PackageServiceProvider
 {
@@ -22,7 +22,8 @@ class FilamentTourServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasConfigFile(self::$name)
             ->hasTranslations()
-            ->hasViews(static::$viewNamespace);
+            ->hasViews(static::$viewNamespace)
+            ->hasMigration('create_tour_history_table');
     }
 
     public function packageBooted(): void
@@ -48,6 +49,6 @@ class FilamentTourServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'jibaymcs/filament-tour';
+        return 'viezel/filament-tour';
     }
 }

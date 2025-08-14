@@ -1,6 +1,6 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tests;
+namespace Viezel\FilamentTour\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -15,10 +15,10 @@ use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use JibayMcs\FilamentTour\FilamentTourServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
+use Viezel\FilamentTour\FilamentTourServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -27,7 +27,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'JibayMcs\\FilamentTour\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Viezel\\FilamentTour\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

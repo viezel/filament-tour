@@ -2,9 +2,9 @@
 
 All notable changes to `filament-tour` will be documented in this file.
 
-## 3.3.0 - 2024-12-19
+## 3.3.1 - 2025-03-20
 
-Adds support for database persistence. See readme.
+Support Route Name
 
 ## v3.1.1 - 2024-11-05
 

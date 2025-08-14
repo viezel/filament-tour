@@ -1,6 +1,6 @@
 <?php
 
-// translations for JibayMcs/FilamentTour
+// translations for Viezel/FilamentTour
 return [
 
     'button' => [

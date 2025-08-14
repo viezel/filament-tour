@@ -1,12 +1,13 @@
 <?php
 
-namespace JibayMcs\FilamentTour;
+namespace Viezel\FilamentTour;
 
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\Blade;
+use Viezel\FilamentTour\Tour\Enums\TourHistoryType;
 
 class FilamentTourPlugin implements Plugin
 {
@@ -16,11 +17,13 @@ class FilamentTourPlugin implements Plugin
 
     private ?bool $enableCssSelector = null;
 
-    private string $historyType = 'local_storage';
+    private TourHistoryType $historyType = TourHistoryType::LocalStorage;
+
+    private bool $autoStart = true;
 
     public static function make(): static
     {
-        return app(static::class);
+        return app(static::class)->autoStart(config('filament-tour.auto_start_tours', true));
     }
 
     public static function get(): static
@@ -43,9 +46,13 @@ class FilamentTourPlugin implements Plugin
 
     public function boot(Panel $panel): void {}
 
-    public function onlyVisibleOnce(bool $onlyVisibleOnce = true): self
+    public function onlyVisibleOnce(bool|Closure $onlyVisibleOnce = true): self
     {
-        $this->onlyVisibleOnce = $onlyVisibleOnce;
+        if (is_callable($onlyVisibleOnce)) {
+            $this->onlyVisibleOnce = $onlyVisibleOnce();
+        } elseif (is_bool($onlyVisibleOnce)) {
+            $this->onlyVisibleOnce = $onlyVisibleOnce;
+        }
 
         return $this;
     }
@@ -72,15 +79,31 @@ class FilamentTourPlugin implements Plugin
         return $this->enableCssSelector;
     }
 
-    public function historyType(string $type): self
+    public function historyType(TourHistoryType $type): self
     {
         $this->historyType = $type;
 
         return $this;
     }
 
-    public function getHistoryType(): string
+    public function getHistoryType(): TourHistoryType
     {
         return $this->historyType;
+    }
+
+    public function autoStart(bool|Closure $autoStart = true): self
+    {
+        if (is_callable($autoStart)) {
+            $this->autoStart = (bool) $autoStart();
+        } elseif (is_bool($autoStart)) {
+            $this->autoStart = $autoStart;
+        }
+
+        return $this;
+    }
+
+    public function getAutoStart(): bool
+    {
+        return $this->autoStart;
     }
 }

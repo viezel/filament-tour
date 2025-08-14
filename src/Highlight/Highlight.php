@@ -1,6 +1,6 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Highlight;
+namespace Viezel\FilamentTour\Highlight;
 
 use Closure;
 use Illuminate\Support\HtmlString;

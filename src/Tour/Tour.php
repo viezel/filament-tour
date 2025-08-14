@@ -1,22 +1,26 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Tour;
+namespace Viezel\FilamentTour\Tour;
 
 use Closure;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\Lang;
-use JibayMcs\FilamentTour\Tour\Traits\CanReadJson;
+use Viezel\FilamentTour\Tour\Traits\CanReadJson;
+use Viezel\FilamentTour\Tour\Traits\HasTourEvent;
 
 class Tour
 {
     use CanReadJson;
     use EvaluatesClosures;
+    use HasTourEvent;
 
     private string $id;
 
     private array $steps = [];
 
     private ?string $route = null;
+
+    private ?string $routeName = null;
 
     private array $colors = [];
 
@@ -36,6 +40,14 @@ class Tour
 
     private string $doneButtonLabel;
 
+    private string $progressText;
+
+    private ?string $popoverClass;
+
+    private bool $shouldCompleteOnDismiss = true;
+
+    private bool $showProgress = true;
+
     public function __construct(string $id, array $colors)
     {
         $this->id = $id;
@@ -44,6 +56,8 @@ class Tour
         $this->nextButtonLabel = Lang::get('filament-tour::filament-tour.button.next');
         $this->previousButtonLabel = Lang::get('filament-tour::filament-tour.button.previous');
         $this->doneButtonLabel = Lang::get('filament-tour::filament-tour.button.done');
+        $this->progressText = '{{current}} of {{total}}';
+        $this->popoverClass = null;
     }
 
     /**
@@ -68,7 +82,6 @@ class Tour
                             'light' => 'rgb(0,0,0)',
                         ],
                     ]);
-                break;
         }
     }
 
@@ -80,6 +93,18 @@ class Tour
     public function route(string $route): self
     {
         $this->route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Set the route name where the tour will be shown.
+     *
+     * @return $this
+     */
+    public function routeName(string $routeName): self
+    {
+        $this->routeName = $routeName;
 
         return $this;
     }
@@ -175,12 +200,47 @@ class Tour
      */
     public function ignoreRoutes(bool|Closure $ignoreRoutes = true): self
     {
-
         if (is_bool($ignoreRoutes)) {
             $this->ignoreRoutes = $ignoreRoutes;
         } else {
             $this->ignoreRoutes = $this->evaluate($ignoreRoutes);
         }
+
+        return $this;
+    }
+
+    /**
+     * Show or hide the progress indicator
+     *
+     * @return $this
+     */
+    public function showProgress(bool $showProgress = true): self
+    {
+        $this->showProgress = $showProgress;
+
+        return $this;
+    }
+
+    /**
+     * Set the progress text
+     *
+     * @return $this
+     */
+    public function progressText(string $progressText): self
+    {
+        $this->progressText = $progressText;
+
+        return $this;
+    }
+
+    /**
+     * Set a custom class for custom theming
+     *
+     * @return $this
+     */
+    public function popoverClass(string $popoverClass): self
+    {
+        $this->popoverClass = $popoverClass;
 
         return $this;
     }
@@ -222,6 +282,18 @@ class Tour
     }
 
     /**
+     * Should tour be marked as completed if user dismisses it
+     *
+     * @return $this
+     */
+    public function shouldCompleteOnDismiss(bool $shouldCompleteOnDismiss = true): self
+    {
+        $this->shouldCompleteOnDismiss = $shouldCompleteOnDismiss;
+
+        return $this;
+    }
+
+    /**
      * Set the steps of your tour.
      *
      * @return $this
@@ -243,6 +315,11 @@ class Tour
         return $this->route;
     }
 
+    public function getRouteName(): ?string
+    {
+        return $this->routeName;
+    }
+
     public function getSteps(): array
     {
         return $this->steps;
@@ -261,6 +338,21 @@ class Tour
     public function isVisible(): bool
     {
         return $this->visible;
+    }
+
+    public function getShowProgress(): bool
+    {
+        return $this->showProgress;
+    }
+
+    public function getProgressText(): string
+    {
+        return $this->progressText;
+    }
+
+    public function getPopoverClass(): ?string
+    {
+        return $this->popoverClass;
     }
 
     public function getNextButtonLabel(): string
@@ -291,5 +383,10 @@ class Tour
     public function isRoutesIgnored(): bool
     {
         return $this->ignoreRoutes;
+    }
+
+    public function getShouldCompleteOnDismiss(): bool
+    {
+        return $this->shouldCompleteOnDismiss;
     }
 }

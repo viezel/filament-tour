@@ -1,8 +1,8 @@
 <?php
 
-namespace JibayMcs\FilamentTour\Highlight;
+namespace Viezel\FilamentTour\Highlight;
 
-use JibayMcs\FilamentTour\Tour\Traits\CanConstructRoute;
+use Viezel\FilamentTour\Tour\Traits\CanConstructRoute;
 
 trait HasHighlight
 {

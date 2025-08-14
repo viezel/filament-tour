@@ -1,0 +1,51 @@
+name: Laravel Pint
+
+on:
+    pull_request:
+
+permissions:
+    pull-requests: write
+    contents: write
+    actions: read
+
+jobs:
+    pint:
+        name: Run Laravel Pint
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+                with:
+                    repository: ${{ github.event.pull_request.head.repo.full_name }}
+                    ref: ${{ github.event.pull_request.head.ref }}
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.3'
+                    extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, xdebug, http
+                    coverage: xdebug
+
+            -   name: Prepare .env files
+                run: |
+                    cp .env.ci .env
+                    cp .env.ci .env.testing
+
+            -   name: Run composer install
+                run: |
+                    rm -rf bootstrap/cache/*.php
+                    composer clear-cache
+                    composer install -n --prefer-dist --ignore-platform-reqs --no-autoloader
+                    composer dump
+                env:
+                    COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+
+            -   name: Run Pint
+                run: ./vendor/bin/pint
+
+            -   name: Commit changes
+                uses: EndBug/add-and-commit@v9
+                with:
+                    add: './app ./config ./database ./routes ./tests'
+                    message: Run Laravel Pint
+                    committer_name: GitHub Actions
+                    committer_email: actions@github.com
